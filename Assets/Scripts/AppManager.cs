@@ -61,7 +61,7 @@ namespace Tofunaut.GridRPG
             _stateMachine = new TofuStateMachine();
             _stateMachine.Register(State.Initializing, Initializing_Enter, Initializing_Update, Initializing_Exit);
             _stateMachine.Register(State.AppStartup, AppStartup_Enter, null, null);
-            _stateMachine.Register(State.StartMenu, null, null, null);
+            _stateMachine.Register(State.StartMenu, StartMenu_Enter, null, null);
             _stateMachine.Register(State.InGame, null, null, null);
             _stateMachine.ChangeState(State.Initializing);
         }
@@ -86,7 +86,7 @@ namespace Tofunaut.GridRPG
             _mainCamera.Render(transform);
             _mainCamera.GameObject.SetActive(false);
 
-            _mainCanvas = SharpCanvas.RenderScreenSpaceOverlay("MainCamera", ReferenceResolution, gameObject.transform);
+            _mainCanvas = SharpCanvas.RenderScreenSpaceOverlay("MainCanvas", ReferenceResolution, gameObject.transform);
         }
 
 
@@ -111,9 +111,29 @@ namespace Tofunaut.GridRPG
         // --------------------------------------------------------------------------------------------
         private void AppStartup_Enter()
         {
-            Debug.Log("AppStartup_Enter");
+            AppStartupController appStartupController = gameObject.RequireComponent<AppStartupController>();
+            appStartupController.enabled = true;
+            appStartupController.Completed += AppStartupController_Completed;
+        }
+
+
+        // --------------------------------------------------------------------------------------------
+        private void StartMenu_Enter()
+        {
+            Debug.Log("StartMenu_Enter");
         }
 
         #endregion State Machine
+
+
+        // --------------------------------------------------------------------------------------------
+        private void AppStartupController_Completed(object sender, ControllerCompletedEventArgs e)
+        {
+            AppStartupController appStartupController = sender as AppStartupController;
+            appStartupController.Completed -= AppStartupController_Completed;
+            appStartupController.enabled = false;
+
+            _stateMachine.ChangeState(State.StartMenu);
+        }
     }
 }
