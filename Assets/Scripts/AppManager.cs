@@ -120,7 +120,9 @@ namespace Tofunaut.GridRPG
         // --------------------------------------------------------------------------------------------
         private void StartMenu_Enter()
         {
-            Debug.Log("StartMenu_Enter");
+            StartMenuController startMenuController = gameObject.RequireComponent<StartMenuController>();
+            startMenuController.enabled = true;
+            startMenuController.Completed += StartMenuController_Completed;
         }
 
         #endregion State Machine
@@ -134,6 +136,15 @@ namespace Tofunaut.GridRPG
             appStartupController.enabled = false;
 
             _stateMachine.ChangeState(State.StartMenu);
+        }
+
+
+        // --------------------------------------------------------------------------------------------
+        private void StartMenuController_Completed(object ssender, ControllerCompletedEventArgs e)
+        {
+            StartMenuController startMenuController = gameObject.RequireComponent<StartMenuController>();
+            startMenuController.enabled = false;
+            startMenuController.Completed -= StartMenuController_Completed;
         }
     }
 }
