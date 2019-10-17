@@ -39,12 +39,15 @@ namespace Tofunaut.GridRPG
         // --------------------------------------------------------------------------------------------
         public static SharpLight Sun { get { return _instance._sun; } }
 
+        public static AssetManager AssetManager { get { return _instance._assetManager; } }
+
         private TofuStateMachine _stateMachine;
         private Version _version;
         private SharpCamera _mainCamera;
         private SharpCanvas _mainCanvas;
         private SharpLight _sun;
         private int _initializingFrameCounter;
+        private AssetManager _assetManager;
 
 
         // --------------------------------------------------------------------------------------------
@@ -79,6 +82,10 @@ namespace Tofunaut.GridRPG
         // --------------------------------------------------------------------------------------------
         private void Initializing_Enter()
         {
+            // load font asset
+            _assetManager = new AssetManager();
+            _assetManager.Load<TMPro.TMP_FontAsset>(AssetPaths.UI.Fonts.Polsyh);
+
             _sun = SharpLight.Sun();
             _sun.Render(transform);
 
@@ -94,7 +101,7 @@ namespace Tofunaut.GridRPG
         private void Initializing_Update(float deltaTime)
         {
             _initializingFrameCounter++;
-            if(_initializingFrameCounter > 2)
+            if(_initializingFrameCounter > 2 && _assetManager.Ready)
             {
                 _stateMachine.ChangeState(State.AppStartup);
             }

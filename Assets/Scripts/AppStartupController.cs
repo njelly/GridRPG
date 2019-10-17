@@ -70,6 +70,8 @@ namespace Tofunaut.GridRPG
         // --------------------------------------------------------------------------------------------
         private void LogIn_Enter()
         {
+            _appStartupView.SetMessage("Authenticating...");
+
             List<SessionProvider> sessionProviders = new List<SessionProvider>()
             {
                 new UnityDeviceIdSessionProvider(),
