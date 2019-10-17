@@ -12,14 +12,20 @@ using UnityEngine;
 
 namespace Tofunaut.GridRPG
 {
+
+    // --------------------------------------------------------------------------------------------
     public static class UIStyleLibrary
     {
+
+        // --------------------------------------------------------------------------------------------
         public static class Text
         {
-            public static SharpUITextMeshPro Default(string name, string text, Color color)
+
+            // --------------------------------------------------------------------------------------------
+            public static SharpUITextMeshPro Default(string name, string text)
             {
                 SharpUITextMeshPro toReturn = new SharpUITextMeshPro(name, text);
-                toReturn.Font = AppManager.AssetManager.Get<TMP_FontAsset>(AssetPaths.UI.Fonts.Polsyh);
+                toReturn.Font = AppManager.AssetManager.Get<TMP_FontAsset>(AssetPaths.UI.Fonts.TechnaSans);
 
                 return toReturn;
             }

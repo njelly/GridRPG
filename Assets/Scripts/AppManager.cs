@@ -82,9 +82,12 @@ namespace Tofunaut.GridRPG
         // --------------------------------------------------------------------------------------------
         private void Initializing_Enter()
         {
+            Debug.Log("Initializing_Enter");
+
             // load font asset
             _assetManager = new AssetManager();
             _assetManager.Load<TMPro.TMP_FontAsset>(AssetPaths.UI.Fonts.Polsyh);
+            _assetManager.Load<TMPro.TMP_FontAsset>(AssetPaths.UI.Fonts.TechnaSans);
 
             _sun = SharpLight.Sun();
             _sun.Render(transform);
@@ -118,6 +121,8 @@ namespace Tofunaut.GridRPG
         // --------------------------------------------------------------------------------------------
         private void AppStartup_Enter()
         {
+            Debug.Log("AppStartup_Enter");
+
             AppStartupController appStartupController = gameObject.RequireComponent<AppStartupController>();
             appStartupController.enabled = true;
             appStartupController.Completed += AppStartupController_Completed;
@@ -127,6 +132,8 @@ namespace Tofunaut.GridRPG
         // --------------------------------------------------------------------------------------------
         private void StartMenu_Enter()
         {
+            Debug.Log("StartMenu_Enter");
+
             StartMenuController startMenuController = gameObject.RequireComponent<StartMenuController>();
             startMenuController.enabled = true;
             startMenuController.Completed += StartMenuController_Completed;
