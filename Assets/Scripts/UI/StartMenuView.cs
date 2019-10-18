@@ -21,7 +21,7 @@ namespace Tofunaut.GridRPG.UI
         // --------------------------------------------------------------------------------------------
         public interface IStartMenuViewListener
         {
-
+            void OnPlayClicked();
         }
 
         private readonly IStartMenuViewListener _listener;
@@ -50,34 +50,25 @@ namespace Tofunaut.GridRPG.UI
             titleLabel.AutoSizeFont();
             toReturn.AddChild(titleLabel);
 
-            toReturn.AddChild(BuildTestButton());
+            UIStartMenuButton playButton = new UIStartMenuButton("PlayButton", "Play", () => { _listener.OnPlayClicked(); });
+            playButton.SetFixedSize(250, 90);
+            playButton.alignment = EAlignment.MiddleCenter;
+            toReturn.AddChild(playButton);
+
+            SharpUITextMeshPro versionLabel = UIStyleLibrary.Text.Default("VersionLabel", AppManager.Version);
+            versionLabel.alignment = EAlignment.BottomRight;
+            versionLabel.SetFixedSize(100, 50);
+            versionLabel.margin = new RectOffset(0, 20, 0, 20);
+            versionLabel.TextAlignment = TextAlignmentOptions.BottomRight;
+            versionLabel.AutoSizeFont();
+            toReturn.AddChild(versionLabel);
 
             return toReturn;
         }
 
 
         // --------------------------------------------------------------------------------------------
-        private SharpUIBase BuildTestButton()
-        {
-            SharpUIImage toReturn = new SharpUIImage("TestButton", null);
-            toReturn.SetFixedSize(200, 80);
-            toReturn.alignment = EAlignment.BottomCenter;
-            toReturn.margin = new RectOffset(0, 0, 0, (int)(AppManager.ReferenceResolution.y / 2));
-
-            SharpUITextMeshPro label = UIStyleLibrary.Text.Default("TestButton_Label", "Test");
-            label.TextAlignment = TextAlignmentOptions.Center;
-            label.SetFillSize();
-            label.Color = Color.black;
-            toReturn.AddChild(label);
-
-            toReturn.SubscribeToEvent(EEventType.PointerClick, OnClickTestButton);
-
-            return toReturn;
-        }
-
-
-        // --------------------------------------------------------------------------------------------
-        private void OnClickTestButton(object sender, EventSystemEventArgs e)
+        private void OnClickTestButton()
         {
             Debug.Log("Test!");
         }

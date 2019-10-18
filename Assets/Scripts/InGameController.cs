@@ -1,0 +1,17 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  UIStyleLibrary (c) 2019 Tofunaut
+//
+//  Created by Nathaniel Ellingson for GridRPG on 10/17/2019
+//
+////////////////////////////////////////////////////////////////////////////////
+
+using Tofunaut.UnityUtils;
+
+namespace Tofunaut.GridRPG
+{
+    public class InGameController : ControllerBehaviour
+    {
+
+    }
+}

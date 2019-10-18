@@ -39,6 +39,12 @@ namespace Tofunaut.GridRPG
         // --------------------------------------------------------------------------------------------
         public static SharpLight Sun { get { return _instance._sun; } }
 
+
+        // --------------------------------------------------------------------------------------------
+        public static Version Version { get { return _instance._version; } }
+
+
+        // --------------------------------------------------------------------------------------------
         public static AssetManager AssetManager { get { return _instance._assetManager; } }
 
         private TofuStateMachine _stateMachine;
@@ -65,7 +71,7 @@ namespace Tofunaut.GridRPG
             _stateMachine.Register(State.Initializing, Initializing_Enter, Initializing_Update, Initializing_Exit);
             _stateMachine.Register(State.AppStartup, AppStartup_Enter, null, null);
             _stateMachine.Register(State.StartMenu, StartMenu_Enter, null, null);
-            _stateMachine.Register(State.InGame, null, null, null);
+            _stateMachine.Register(State.InGame, InGame_Enter, null, null);
             _stateMachine.ChangeState(State.Initializing);
         }
 
@@ -139,7 +145,25 @@ namespace Tofunaut.GridRPG
             startMenuController.Completed += StartMenuController_Completed;
         }
 
+
+        // --------------------------------------------------------------------------------------------
+        private void InGame_Enter()
+        {
+            Debug.Log("InGame_Enter");
+
+            InGameController inGameController = gameObject.RequireComponent<InGameController>();
+            inGameController.enabled = true;
+            inGameController.Completed += InGameController_Completed;
+        }
+
         #endregion State Machine
+
+
+        // --------------------------------------------------------------------------------------------
+        public void QuitApp()
+        {
+            Application.Quit();
+        }
 
 
         // --------------------------------------------------------------------------------------------
@@ -154,11 +178,31 @@ namespace Tofunaut.GridRPG
 
 
         // --------------------------------------------------------------------------------------------
-        private void StartMenuController_Completed(object ssender, ControllerCompletedEventArgs e)
+        private void StartMenuController_Completed(object sender, ControllerCompletedEventArgs e)
         {
             StartMenuController startMenuController = gameObject.RequireComponent<StartMenuController>();
             startMenuController.enabled = false;
             startMenuController.Completed -= StartMenuController_Completed;
+
+            StartMenuController.StartMenuControllerCompletedEventArgs startMenuArgs = e as StartMenuController.StartMenuControllerCompletedEventArgs;
+            switch (startMenuArgs.intention)
+            {
+                case StartMenuController.StartMenuControllerCompletedEventArgs.Intention.EnterGame:
+                    _stateMachine.ChangeState(State.InGame);
+                    break;
+                case StartMenuController.StartMenuControllerCompletedEventArgs.Intention.QuitApp:
+                    QuitApp();
+                    break;
+            }
+        }
+
+
+        // --------------------------------------------------------------------------------------------
+        private void InGameController_Completed(object sender, ControllerCompletedEventArgs e)
+        {
+            InGameController inGameController = gameObject.RequireComponent<InGameController>();
+            inGameController.enabled = false;
+            inGameController.Completed -= InGameController_Completed;
         }
     }
 }

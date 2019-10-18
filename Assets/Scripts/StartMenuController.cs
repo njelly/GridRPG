@@ -8,6 +8,7 @@
 
 using Tofunaut.GridRPG.UI;
 using Tofunaut.UnityUtils;
+using UnityEngine;
 
 namespace Tofunaut.GridRPG
 {
@@ -15,7 +16,7 @@ namespace Tofunaut.GridRPG
     // --------------------------------------------------------------------------------------------
     public class StartMenuController : ControllerBehaviour, StartMenuView.IStartMenuViewListener
     {
-        StartMenuView _startMenuView;
+        private StartMenuView _startMenuView;
 
 
         // --------------------------------------------------------------------------------------------
@@ -32,6 +33,29 @@ namespace Tofunaut.GridRPG
             base.OnDisable();
 
             _startMenuView.Hide();
+        }
+
+
+        // --------------------------------------------------------------------------------------------
+        public void OnPlayClicked()
+        {
+            Complete(new StartMenuControllerCompletedEventArgs(true, StartMenuControllerCompletedEventArgs.Intention.EnterGame));
+        }
+
+        public class StartMenuControllerCompletedEventArgs : ControllerCompletedEventArgs
+        {
+            public enum Intention
+            {
+                EnterGame,
+                QuitApp,
+            }
+
+            public readonly Intention intention;
+
+            public StartMenuControllerCompletedEventArgs(bool succesful, Intention intention) : base(succesful)
+            {
+                this.intention = intention;
+            }
         }
     }
 }
