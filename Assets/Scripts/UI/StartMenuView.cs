@@ -41,13 +41,11 @@ namespace Tofunaut.GridRPG.UI
             toReturn.SetFillSize();
             toReturn.Color = Color.gray;
 
-            SharpUITextMeshPro titleLabel = UIStyleLibrary.Text.Default("TitleLabel", "GridRPG");
+            UIStartMenuTitle titleLabel = new UIStartMenuTitle();
             titleLabel.alignment = EAlignment.TopCenter;
-            titleLabel.SetFillSize(EAxis.X);
+            titleLabel.SetFillSize(EAxis.X, 1f);
             titleLabel.SetFixedSize(EAxis.Y, 200);
             titleLabel.margin = new RectOffset(0, 0, 50, 100);
-            titleLabel.TextAlignment = TextAlignmentOptions.Center;
-            titleLabel.AutoSizeFont();
             toReturn.AddChild(titleLabel);
 
             UIStartMenuButton playButton = new UIStartMenuButton("PlayButton", "Play", () => { _listener.OnPlayClicked(); });
