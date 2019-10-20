@@ -24,5 +24,17 @@ namespace Tofunaut.GridRPG
                 public const string TechnaSans = "Assets/Art/Fonts/TechnaSans-Regular SDF.asset";
             }
         }
+
+
+        // --------------------------------------------------------------------------------------------
+        public static class Game 
+        {
+
+            // --------------------------------------------------------------------------------------------
+            public static class ActorViews
+            {
+                public const string Player = "Assets/Prefabs/PlayerActorView.prefab";
+            }
+        }
     }
 }

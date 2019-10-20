@@ -17,6 +17,10 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 7484569c712eb884c9fef8e2e00bab05
   m_SerializeEntries:
+  - m_GUID: d85b38f103d38f64eb3f168f44202278
+    m_Address: Assets/Prefabs/PlayerActorView.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: ebbffd91b5226ad4a9a906de8a0f5d1e
     m_Address: Assets/Art/Fonts/TechnaSans-Regular SDF.asset
     m_ReadOnly: 0

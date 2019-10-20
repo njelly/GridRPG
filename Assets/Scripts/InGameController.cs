@@ -6,12 +6,17 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+using Tofunaut.GridRPG.Game;
 using Tofunaut.UnityUtils;
+using UnityEngine;
 
 namespace Tofunaut.GridRPG
 {
     public class InGameController : ControllerBehaviour
     {
+        private void Awake()
+        {
 
+        }
     }
 }
