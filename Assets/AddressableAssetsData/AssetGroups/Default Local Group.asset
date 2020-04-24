@@ -15,23 +15,27 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_Data:
     m_SerializedData: []
-  m_GUID: 7484569c712eb884c9fef8e2e00bab05
+  m_GUID: 0e8b51bddd645544ebde274585d734f8
   m_SerializeEntries:
-  - m_GUID: d85b38f103d38f64eb3f168f44202278
-    m_Address: Assets/Prefabs/PlayerActorView.prefab
+  - m_GUID: 0348d0cdbfccf3e478e97b0a5fb08a34
+    m_Address: LiberationSans-Bold
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: ebbffd91b5226ad4a9a906de8a0f5d1e
-    m_Address: Assets/Art/Fonts/TechnaSans-Regular SDF.asset
+  - m_GUID: 39660748f5ab2db4ebc62b9a54ced960
+    m_Address: LiberationSans-Italic
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: f99927cf1be6fda458a660d145e258eb
-    m_Address: Assets/Art/Fonts/Polsyh SDF.asset
+  - m_GUID: 90ea7209cf658584bacb2dd2e858e817
+    m_Address: LiberationSans-BoldItalic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b1e4d91e9ebf52d489a41ec0022bcb93
+    m_Address: LiberationSans-Regular
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0
-  m_Settings: {fileID: 11400000, guid: 99688e61d0363d341a7ea6cfd86bd8cd, type: 2}
+  m_Settings: {fileID: 11400000, guid: 0e1b3bf0bdf43254c81007ab7c2bb520, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 606eb29736b2e5f4f89feba3e7a5c788, type: 2}
-    - {fileID: 11400000, guid: e6101337ccad9e9458bef360ddf6039a, type: 2}
+    - {fileID: 11400000, guid: 17b16389c6cd70742b415ab9a1e2089e, type: 2}
+    - {fileID: 11400000, guid: 2c52cb100bdff614cbf6def9314b1991, type: 2}
