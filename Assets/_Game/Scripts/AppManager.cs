@@ -6,7 +6,7 @@ namespace Tofunaut.GridRPG
 {
     public class AppManager : SingletonBehaviour<AppManager>
     {
-        private static class State 
+        private static class State
         {
             public const string Initialize = "initialize";
             public const string StartMenu = "start_menu";
@@ -52,10 +52,10 @@ namespace Tofunaut.GridRPG
 
         private void Initialize_Update(float deltaTime)
         {
-            if(_assetManager.Ready)
+            if (_assetManager.Ready)
             {
 #if UNITY_EDITOR
-                if(_skipStartMenu)
+                if (_skipStartMenu)
                 {
                     _stateMachine.ChangeState(State.InGame);
                 }
@@ -76,7 +76,16 @@ namespace Tofunaut.GridRPG
 
         private void InGame_Enter()
         {
-            Debug.Log("InGame_Enter");
+            InGameController inGameController = gameObject.RequireComponent<InGameController>();
+            inGameController.enabled = true;
+            inGameController.Completed += InGameController_Completed;
+        }
+
+        private void InGameController_Completed(object sender, ControllerCompletedEventArgs e)
+        {
+            InGameController inGameController = gameObject.RequireComponent<InGameController>();
+            inGameController.enabled = false;
+            inGameController.Completed -= InGameController_Completed;
         }
     }
 }
