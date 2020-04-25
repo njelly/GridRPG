@@ -10,7 +10,6 @@ namespace Tofunaut.GridRPG
         public const string WorldSeedKey = "world_seed";
 
         private int _worldSeed;
-        private World _world;
 
         private static class State
         {
@@ -19,24 +18,34 @@ namespace Tofunaut.GridRPG
         }
 
         private TofuStateMachine _stateMachine;
+        private World _world;
 
         private void Awake()
         {
             _stateMachine = new TofuStateMachine();
             _stateMachine.Register(State.Loading, Loading_Enter, Loading_Update, null);
             _stateMachine.Register(State.InGame, InGame_Enter, null, null);
+        }
 
+        private void OnEnable()
+        {
             _stateMachine.ChangeState(State.Loading);
         }
 
         private void Update()
         {
             _stateMachine.Update(Time.deltaTime);
+
+            // for debug purposes
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                this.Complete(new InGameControllerCompletedEventArgs(true, InGameControllerCompletedEventArgs.Code.ReturnToStart));
+            }
         }
 
         private void Loading_Enter()
         {
-            World.PreLoadSpriteAtlas(() => { });
+            _world = World.Load();
         }
 
         private void Loading_Update(float deltaTime)
@@ -49,11 +58,31 @@ namespace Tofunaut.GridRPG
 
         private void InGame_Enter()
         {
-            // check for existing world seed, create one and set it if it doesn't exist
-            _worldSeed = PlayerPrefs.GetInt(WorldSeedKey, UnityEngine.Random.Range(int.MinValue, int.MaxValue));
-            PlayerPrefs.SetInt(WorldSeedKey, _worldSeed);
+            _world.Render(gameObject.transform);
+        }
 
-            _world = new World(_worldSeed);
+        protected override void Complete(ControllerCompletedEventArgs e)
+        {
+            _world.Save();
+            _world.Destroy();
+
+            base.Complete(e);
+        }
+
+        public class InGameControllerCompletedEventArgs : ControllerCompletedEventArgs
+        {
+            public static class Code
+            {
+                public const int ReturnToStart = 1;
+                public const int ExitApp = 2;
+            }
+
+            public readonly int code;
+
+            public InGameControllerCompletedEventArgs(bool succesful, int code) : base(succesful)
+            {
+                this.code = code;
+            }
         }
     }
 }

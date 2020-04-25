@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using Tofunaut.Core;
+using System.IO;
 using Tofunaut.SharpUnity;
 using UnityEngine;
 
@@ -8,31 +7,58 @@ namespace Tofunaut.GridRPG.Game
 {
     public class World : SharpGameObject
     {
-        public static Sprite[] Sprites { get; private set; }
+        public static string WorldStateSavePath { get { return Path.Combine(Application.streamingAssetsPath, "WorldState.txt"); } }
 
-        public readonly int seed;
+        private readonly WorldState _state;
 
-        private Region _originRegion;
-
-        public World(int seed) : base("World")
+        protected World(WorldState state) : base("World")
         {
-            this.seed = seed;
+            _state = state;
         }
 
-        public void PreGenerateOrigin(Action onComplete)
+        public void Save(Action onComplete = null)
         {
-
+            string path = WorldStateSavePath;
+            string[] lines = { _state.ToString() };
+            File.WriteAllLines(path, lines);
+            Debug.Log($"saved WorldState data to {path}");
+            onComplete?.Invoke();
         }
 
-        public static void PreLoadSpriteAtlas(Action onComplete)
+        public static World Load()
         {
-            AppManager.AssetManager.LoadList(AssetPaths.Textures.SpriteAtlas, (bool succesful, List<Sprite> payload) =>
+            string path = WorldStateSavePath;
+
+            if (File.Exists(path))
             {
-                if (succesful)
+                string data = File.ReadAllText(path).Trim();
+                try
                 {
-                    Sprites = payload.ToArray();
+                    WorldState worldState = Newtonsoft.Json.JsonConvert.DeserializeObject<WorldState>(data);
+                    Debug.Log($"loaded saved WorldState, seed: {worldState.seed}");
+                    return new World(worldState);
                 }
-            });
+                catch
+                {
+                    Debug.LogError("could not deserialize saved world state data");
+                    return null;
+                }
+            }
+            else
+            {
+                Debug.LogFormat($"Could not find file at {path}, so it will be created");
+
+                // check to make sure the directory exists before trying to write a file to it
+                if (!Directory.Exists(Application.streamingAssetsPath))
+                {
+                    Directory.CreateDirectory(Application.streamingAssetsPath);
+                }
+
+                WorldState worldState = new WorldState(UnityEngine.Random.Range(int.MinValue, int.MaxValue));
+                World toReturn = new World(worldState);
+                toReturn.Save();
+                return toReturn;
+            }
         }
     }
 }

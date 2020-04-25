@@ -15,9 +15,11 @@ namespace Tofunaut.GridRPG
         }
 
         public static AssetManager AssetManager => _instance._assetManager;
+        public static Version Version => _instance._version;
 
         private TofuStateMachine _stateMachine;
         private AssetManager _assetManager;
+        private Version _version;
 
 #if UNITY_EDITOR
         [Header("Development")]
@@ -29,6 +31,9 @@ namespace Tofunaut.GridRPG
             base.Awake();
 
             _assetManager = new AssetManager();
+
+            _version = new Version($"{Application.version}.{BuildNumberUtil.ReadBuildNumber()}");
+            Debug.Log($"GridRPG {_version} (c) 2020 Tofunaut");
 
             _stateMachine = new TofuStateMachine();
             _stateMachine.Register(State.Initialize, Initialize_Enter, Initialize_Update, null);
@@ -87,6 +92,18 @@ namespace Tofunaut.GridRPG
             InGameController inGameController = gameObject.RequireComponent<InGameController>();
             inGameController.enabled = false;
             inGameController.Completed -= InGameController_Completed;
+
+            InGameController.InGameControllerCompletedEventArgs inGameControllerCompletedEventArgs = e as InGameController.InGameControllerCompletedEventArgs;
+            switch (inGameControllerCompletedEventArgs.code)
+            {
+                case InGameController.InGameControllerCompletedEventArgs.Code.ReturnToStart:
+                    _stateMachine.ChangeState(State.StartMenu);
+                    break;
+                case InGameController.InGameControllerCompletedEventArgs.Code.ExitApp:
+                    Debug.Log("in game controller requested exit");
+                    Application.Quit();
+                    break;
+            }
         }
     }
 }

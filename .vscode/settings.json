@@ -1,4 +1,9 @@
 {
+    "editor.codeLens": false,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.formatOnSave": true,
+
     "files.exclude":
     {
         "**/.DS_Store":true,
