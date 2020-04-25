@@ -23,7 +23,7 @@ namespace Tofunaut.GridRPG
         private void Awake()
         {
             _stateMachine = new TofuStateMachine();
-            _stateMachine.Register(State.Loading, null, null, null);
+            _stateMachine.Register(State.Loading, Loading_Enter, Loading_Update, null);
             _stateMachine.Register(State.InGame, InGame_Enter, null, null);
 
             _stateMachine.ChangeState(State.Loading);
@@ -32,6 +32,19 @@ namespace Tofunaut.GridRPG
         private void Update()
         {
             _stateMachine.Update(Time.deltaTime);
+        }
+
+        private void Loading_Enter()
+        {
+            World.PreLoadSpriteAtlas(() => { });
+        }
+
+        private void Loading_Update(float deltaTime)
+        {
+            if (AppManager.AssetManager.Ready)
+            {
+                _stateMachine.ChangeState(State.InGame);
+            }
         }
 
         private void InGame_Enter()

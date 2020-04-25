@@ -21,6 +21,10 @@ MonoBehaviour:
     m_Address: LiberationSans-Bold
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 20d1bb48f96484fae947f14be95db882
+    m_Address: sprite_atlas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   - m_GUID: 39660748f5ab2db4ebc62b9a54ced960
     m_Address: LiberationSans-Italic
     m_ReadOnly: 0
