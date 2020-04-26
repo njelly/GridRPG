@@ -15,7 +15,7 @@ namespace Tofunaut.GridRPG.Game
         public const int SimulateRegionDistance = 2;
         public const int RenderRegionDistance = 1;
 
-        public static string WorldStateSavePath { get { return Path.Combine(Application.persistentDataPath, "WorldState.txt"); } }
+        public static string WorldStateSavePath { get { return Path.Combine(Application.persistentDataPath, "WorldState.grpgsave"); } }
 
         private readonly WorldState _state;
 
@@ -180,8 +180,7 @@ namespace Tofunaut.GridRPG.Game
         public void Save(Action onComplete = null)
         {
             string path = WorldStateSavePath;
-            string[] lines = { _state.ToString() };
-            File.WriteAllLines(path, lines);
+            File.WriteAllBytes(path, GZipUtil.Compress(_state.ToString()));
             Debug.Log($"saved WorldState data to {path}");
             onComplete?.Invoke();
         }
@@ -193,7 +192,7 @@ namespace Tofunaut.GridRPG.Game
 
             if (File.Exists(path))
             {
-                string data = File.ReadAllText(path).Trim();
+                string data = GZipUtil.Decompress(File.ReadAllBytes(path)).Trim();
                 try
                 {
                     WorldState worldState = Newtonsoft.Json.JsonConvert.DeserializeObject<WorldState>(data);
