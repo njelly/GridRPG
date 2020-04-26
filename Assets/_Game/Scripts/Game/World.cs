@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using Tofunaut.Core;
 using Tofunaut.SharpUnity;
 using UnityEngine;
 
@@ -11,9 +13,13 @@ namespace Tofunaut.GridRPG.Game
 
         private readonly WorldState _state;
 
+        private Dictionary<IntVector2, Region> _coordToRegion;
+
         protected World(WorldState state) : base("World")
         {
             _state = state;
+
+            _coordToRegion = new Dictionary<IntVector2, Region>();
         }
 
         public void Save(Action onComplete = null)

@@ -6,11 +6,23 @@ namespace Tofunaut.GridRPG.Game
     [Serializable]
     public class TileState
     {
-        public List<ActorState> actors;
+        public enum EType
+        {
+            Invalid = 0,
+            Grass = 1,
+        }
+
+        public int type;
+        public int variant;
+        public int solidLayer;
+        public HashSet<ActorState> actors;
 
         public TileState()
         {
-            actors = new List<ActorState>();
+            variant = 0;
+            type = 1;
+            solidLayer = (int)Collision.ELayer.None;
+            actors = new HashSet<ActorState>();
         }
     }
 }
