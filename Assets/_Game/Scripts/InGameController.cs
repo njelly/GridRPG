@@ -45,15 +45,24 @@ namespace Tofunaut.GridRPG
 
         private void Loading_Enter()
         {
-            _world = World.Load();
+            World.Load((World payload) =>
+            {
+                _world = payload;
+            });
         }
 
         private void Loading_Update(float deltaTime)
         {
-            if (AppManager.AssetManager.Ready)
+            if (_world == null)
             {
-                _stateMachine.ChangeState(State.InGame);
+                return;
             }
+            if (!AppManager.AssetManager.Ready)
+            {
+                return;
+            }
+
+            _stateMachine.ChangeState(State.InGame);
         }
 
         private void InGame_Enter()
