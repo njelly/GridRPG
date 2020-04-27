@@ -128,16 +128,11 @@ namespace Tofunaut.GridRPG.Game
                         }
                     }
 
-                    if (region.Parent != this)
-                    {
-                        this.AddChild(region);
-                    }
-
                     if (x >= -RenderRegionDistance && x <= RenderRegionDistance && y >= -RenderRegionDistance && y <= RenderRegionDistance)
                     {
-                        if (!region.IsBuilt)
+                        if (region.Parent != this)
                         {
-                            region.Render(Transform);
+                            this.AddChild(region);
                         }
                         region.LocalPosition = (new IntVector2(x, y) * RegionState.Size).ToUnityVector3_XY();
                     }

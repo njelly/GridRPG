@@ -5,7 +5,7 @@ namespace Tofunaut.GridRPG.Game
     [Serializable]
     public class RegionState
     {
-        public const int Size = 64;
+        public const int Size = 16;
 
         public TileState[,] tiles;
 

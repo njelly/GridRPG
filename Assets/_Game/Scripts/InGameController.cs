@@ -49,6 +49,9 @@ namespace Tofunaut.GridRPG
             {
                 _world = payload;
             });
+
+            // this uses AppManager.AssetManager
+            SpriteAtlasManager.Load();
         }
 
         private void Loading_Update(float deltaTime)

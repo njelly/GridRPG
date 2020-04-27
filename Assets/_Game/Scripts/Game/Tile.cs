@@ -11,6 +11,7 @@ namespace Tofunaut.GridRPG.Game
         public readonly IntVector2 coord;
 
         private readonly TileState _state;
+        private readonly TileView _view;
 
         public Tile(Region region, TileState state, IntVector2 coord) : base($"{region.Name}, Tile {coord.ToString()}")
         {
@@ -18,6 +19,9 @@ namespace Tofunaut.GridRPG.Game
             this.coord = coord;
 
             _state = state;
+
+            _view = new TileView(this, SpriteAtlasManager.Get(1));
+            AddChild(_view);
 
             foreach (ActorState actorState in _state.actors)
             {
