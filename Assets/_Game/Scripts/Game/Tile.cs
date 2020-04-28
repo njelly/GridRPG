@@ -22,21 +22,6 @@ namespace Tofunaut.GridRPG.Game
 
             _view = new TileView(this, SpriteAtlasManager.Get(1));
             AddChild(_view);
-
-            foreach (ActorState actorState in _state.actors)
-            {
-                Actor actor = new Actor(this, actorState);
-            }
-        }
-
-        public void RemoveActor(ActorState actorState)
-        {
-            _state.actors.Remove(actorState);
-        }
-
-        public void AddActor(ActorState actorState)
-        {
-            _state.actors.Add(actorState);
         }
     }
 }

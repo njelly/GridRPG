@@ -7,15 +7,19 @@ namespace Tofunaut.GridRPG.Game
     [Serializable]
     public class WorldState
     {
+        public uint InvalidActorId = 0;
+
         public int seed;
-        public IntVector2 centerRegion;
         public Dictionary<int, Dictionary<int, RegionState>> regions;
+        public PlayerState playerState;
+        public uint actorIdCounter;
 
         public WorldState(int seed)
         {
             this.seed = seed;
-            centerRegion = IntVector2.Zero;
             regions = new Dictionary<int, Dictionary<int, RegionState>>();
+            playerState = new PlayerState();
+            actorIdCounter = InvalidActorId;
         }
 
         public void AddRegionState(IntVector2 coord, RegionState regionState)

@@ -9,13 +9,14 @@ namespace Tofunaut.GridRPG.Game
     {
         public Tile CurrentTile { get; private set; }
         public bool IsMoving => _moveAnim != null;
+        public uint Id => _state.id;
 
         private readonly ActorState _state;
 
         private Input _input;
         private TofuAnimation _moveAnim;
 
-        public Actor(Tile tile, ActorState state) : base("Actor")
+        protected Actor(Tile tile, ActorState state) : base("Actor")
         {
             _state = state;
 
@@ -26,20 +27,14 @@ namespace Tofunaut.GridRPG.Game
 
         public void SetTile(Tile tile, bool teleport)
         {
-            if (CurrentTile != null)
-            {
-                CurrentTile.RemoveActor(_state);
-            }
-
-            CurrentTile.AddActor(_state);
-            CurrentTile.AddChild(this);
-
             _moveAnim?.Stop();
+
+            Vector3 targetPos = tile.LocalPosition;
 
             if (teleport)
             {
                 _moveAnim = null;
-                LocalPosition = Vector3.zero;
+                LocalPosition = targetPos;
             }
             else
             {
@@ -48,7 +43,7 @@ namespace Tofunaut.GridRPG.Game
                 _moveAnim = new TofuAnimation()
                     .Value01(animTime, EEaseType.Linear, (float newValue) =>
                     {
-                        LocalPosition = Vector3.LerpUnclamped(startPos, Vector3.zero, newValue);
+                        LocalPosition = Vector3.LerpUnclamped(startPos, targetPos, newValue);
                     })
                     .Then()
                     .Execute(() =>
@@ -100,6 +95,16 @@ namespace Tofunaut.GridRPG.Game
                     return button.Held ? button.Direction : IntVector2.Zero;
                 }
             }
+        }
+
+        public static Actor Create(World world, Tile tile)
+        {
+            ActorState actorState = new ActorState();
+            actorState.id = world.GetActorId();
+
+            Actor toReturn = new Actor(tile, actorState);
+
+            return toReturn;
         }
     }
 }

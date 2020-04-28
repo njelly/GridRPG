@@ -8,14 +8,13 @@ namespace Tofunaut.GridRPG.Game
     public class Region : SharpGameObject
     {
         public readonly World world;
-        public readonly IntVector2 coord;
+        public IntVector2 coord => _state.coord;
 
         private readonly RegionState _state;
 
-        public Region(World world, RegionState state, IntVector2 coord) : base($"Region {coord.ToString()}")
+        public Region(World world, RegionState state) : base($"Region {state.coord.ToString()}")
         {
             this.world = world;
-            this.coord = coord;
 
             _state = state;
 
@@ -29,6 +28,11 @@ namespace Tofunaut.GridRPG.Game
                     AddChild(tile);
                 }
             }
+        }
+
+        public void Tick()
+        {
+
         }
     }
 }

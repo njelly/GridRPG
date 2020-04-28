@@ -17,25 +17,46 @@ namespace Tofunaut.GridRPG.Game
 
         public static string WorldStateSavePath { get { return Path.Combine(Application.persistentDataPath, "WorldState.grpgsave"); } }
 
+        public uint ActorIdCounter => _state.actorIdCounter;
+
         private readonly WorldState _state;
+        private readonly Player _player;
 
         private Dictionary<IntVector2, Region> _coordToRegion;
 
         protected World(WorldState state) : base("World")
         {
             _state = state;
+            _player = new Player(this, _state.playerState);
 
             _coordToRegion = new Dictionary<IntVector2, Region>();
         }
 
         public void Tick()
         {
-            Debug.Log("one world tick!");
+            Region playerRegion = _player.CurrentActor.CurrentTile.region;
+            for (int x = -SimulateRegionDistance; x >= SimulateRegionDistance; x++)
+            {
+                for (int y = -SimulateRegionDistance; y >= SimulateRegionDistance; y++)
+                {
+                    IntVector2 coord = new IntVector2(x, y) + playerRegion.coord;
+                    _coordToRegion[coord].Tick();
+                }
+            }
         }
 
-        protected override void PostRender()
+        public Region GetRegion(IntVector2 coord)
         {
-            RenderRegions();
+            if (_coordToRegion.TryGetValue(coord, out Region toReturn))
+            {
+                return toReturn;
+            }
+            else
+            {
+                Debug.Log($"Region not loaded for {coord}");
+            }
+
+            return null;
         }
 
         public void SetCenterRegion(IntVector2 coord, Action onComplete)
@@ -90,17 +111,12 @@ namespace Tofunaut.GridRPG.Game
                 .Then()
                 .Execute(() =>
                 {
-                    if (IsBuilt)
-                    {
-                        RenderRegions();
-                    }
-                    _state.centerRegion = coord;
                     onComplete();
                 })
                 .Play();
         }
 
-        private void RenderRegions()
+        public void RenderRegions(IntVector2 centerCoord)
         {
             if (!IsBuilt)
             {
@@ -111,14 +127,14 @@ namespace Tofunaut.GridRPG.Game
             {
                 for (int y = -SimulateRegionDistance; y <= SimulateRegionDistance; y++)
                 {
-                    IntVector2 coord = new IntVector2(x, y) + _state.centerRegion;
+                    IntVector2 coord = new IntVector2(x, y) + centerCoord;
 
                     // make sure it exists in the first place
                     if (!_coordToRegion.TryGetValue(coord, out Region region))
                     {
                         if (_state.TryGetRegionState(coord, out RegionState regionState))
                         {
-                            region = new Region(this, regionState, coord);
+                            region = new Region(this, regionState);
                             _coordToRegion.Add(coord, region);
                         }
                         else
@@ -148,7 +164,7 @@ namespace Tofunaut.GridRPG.Game
             List<IntVector2> toRemove = new List<IntVector2>();
             foreach (IntVector2 key in _coordToRegion.Keys)
             {
-                IntVector2 toCenter = _state.centerRegion - key;
+                IntVector2 toCenter = centerCoord - key;
                 if (Mathf.Abs(toCenter.x) > CachedRegionDistance || Mathf.Abs(toCenter.y) > CachedRegionDistance)
                 {
                     toRemove.Add(key);
@@ -214,11 +230,13 @@ namespace Tofunaut.GridRPG.Game
                 toReturn = new World(worldState);
             }
 
-            toReturn.SetCenterRegion(toReturn._state.centerRegion, () =>
-            {
-                toReturn.Save();
-                onComplete(toReturn);
-            });
+            toReturn.Save();
+            onComplete(toReturn);
+        }
+
+        public uint GetActorId()
+        {
+            return ++_state.actorIdCounter;
         }
     }
 }

@@ -1,3 +1,4 @@
+using Tofunaut.Animation;
 using Tofunaut.Core;
 using Tofunaut.GridRPG.Game;
 using Tofunaut.UnityUtils;
@@ -8,6 +9,7 @@ namespace Tofunaut.GridRPG
     public class InGameController : ControllerBehaviour
     {
         public const string WorldSeedKey = "world_seed";
+        public const float WorldTickInterval = 0.75f;
 
         private int _worldSeed;
 
@@ -19,12 +21,13 @@ namespace Tofunaut.GridRPG
 
         private TofuStateMachine _stateMachine;
         private World _world;
+        private float _worldTickTimer;
 
         private void Awake()
         {
             _stateMachine = new TofuStateMachine();
             _stateMachine.Register(State.Loading, Loading_Enter, Loading_Update, null);
-            _stateMachine.Register(State.InGame, InGame_Enter, null, null);
+            _stateMachine.Register(State.InGame, InGame_Enter, InGame_Update, null);
         }
 
         private void OnEnable()
@@ -71,6 +74,17 @@ namespace Tofunaut.GridRPG
         private void InGame_Enter()
         {
             _world.Render(gameObject.transform);
+            _worldTickTimer = WorldTickInterval;
+        }
+
+        private void InGame_Update(float deltaTime)
+        {
+            _worldTickTimer -= deltaTime;
+            if (_worldTickTimer <= 0f)
+            {
+                _world.Tick();
+                _worldTickTimer += WorldTickInterval;
+            }
         }
 
         protected override void Complete(ControllerCompletedEventArgs e)

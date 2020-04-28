@@ -46,12 +46,16 @@ namespace Tofunaut.GridRPG.Game
         public static RegionState Generate(IntVector2 coord)
         {
             RegionState toReturn = new RegionState();
+            toReturn.coord = coord;
 
             for (int x = 0; x < toReturn.tiles.GetLength(0); x++)
             {
                 for (int y = 0; y < toReturn.tiles.GetLength(1); y++)
                 {
-                    toReturn.tiles[x, y] = new TileState();
+                    TileState tileState = new TileState();
+                    // TODO: perlin noise to use different variations of the tile
+
+                    toReturn.tiles[x, y] = tileState;
                 }
             }
 

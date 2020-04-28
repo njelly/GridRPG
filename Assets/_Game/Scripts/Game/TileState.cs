@@ -15,14 +15,12 @@ namespace Tofunaut.GridRPG.Game
         public int type;
         public int variant;
         public int solidLayer;
-        public HashSet<ActorState> actors;
 
         public TileState()
         {
             variant = 0;
             type = 1;
             solidLayer = (int)Collision.ELayer.None;
-            actors = new HashSet<ActorState>();
         }
     }
 }
