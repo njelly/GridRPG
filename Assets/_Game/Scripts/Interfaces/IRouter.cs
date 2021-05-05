@@ -1,0 +1,16 @@
+using System.Threading.Tasks;
+
+namespace Tofunaut.GridRPG.Interfaces
+{
+    public interface IRouter
+    {
+        Task<TController> GoTo<TController, TControllerModel>(TControllerModel model)
+            where TController : Controller<TControllerModel>;
+
+        Task<IController> Back();
+        Task ClearHistory();
+
+        Task<TController> ReplaceCurrent<TController, TControllerModel>(TControllerModel model)
+            where TController : Controller<TControllerModel>;
+    }
+}
