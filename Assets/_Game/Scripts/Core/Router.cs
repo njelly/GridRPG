@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tofunaut.GridRPG.Interfaces;
+using Tofunaut.Core.Interfaces;
 using UnityEngine;
 
-namespace Tofunaut.GridRPG
+namespace Tofunaut.Core
 {
     public class Router : ScriptableObject, IRouter
     {

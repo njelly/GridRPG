@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Tofunaut.GridRPG.Interfaces
+namespace Tofunaut.Core.Interfaces
 {
     public interface IRouter
     {

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using Tofunaut.GridRPG.Interfaces;
+using Tofunaut.Core.Interfaces;
 using UnityEngine;
 
-namespace Tofunaut.GridRPG
+namespace Tofunaut.Core
 {
     public abstract class Controller<TControllerModel> : ScriptableObject, IController
     {
@@ -18,6 +18,7 @@ namespace Tofunaut.GridRPG
         {
             return Task.CompletedTask;
         }
+        
         public virtual Task Unload()
         {
             return Task.CompletedTask;

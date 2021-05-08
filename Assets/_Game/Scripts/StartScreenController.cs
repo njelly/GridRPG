@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using Tofunaut.GridRPG.Interfaces;
+using Tofunaut.Core;
+using Tofunaut.Core.Interfaces;
 using UnityEngine;
 
 namespace Tofunaut.GridRPG
