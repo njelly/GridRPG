@@ -4,6 +4,8 @@ namespace Tofunaut.Core.Interfaces
 {
     public interface IViewService
     {
+        IViewController Current { get; }
+        
         Task<TViewController> Push<TViewController, TViewControllerModel>(TViewControllerModel model)
             where TViewController : ViewController<TViewControllerModel>;
 

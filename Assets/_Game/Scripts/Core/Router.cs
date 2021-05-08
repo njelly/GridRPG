@@ -5,20 +5,26 @@ using UnityEngine;
 
 namespace Tofunaut.Core
 {
-    public class Router : ScriptableObject, IRouter
+    public class Router : IRouter
     {
-        private Stack<IController> _controllerStack;
+        public IContext Context { get; private set; }
+        
+        private readonly Stack<IController> _controllerStack;
+
+        public Router(IContext context)
+        {
+            _controllerStack = new Stack<IController>();
+            Context = context;
+        }
         
         public async Task<TController> GoTo<TController, TControllerModel>(TControllerModel model) where TController : Controller<TControllerModel>
         {
-            _controllerStack ??= new Stack<IController>();
-
             // lose focus for the current controller
             if (_controllerStack.Count > 0)
                 await _controllerStack.Peek().OnLostFocus();
             
             // push, load, and gain focus for the new controller
-            var controller = CreateInstance<TController>();
+            var controller = ScriptableObject.CreateInstance<TController>();
             _controllerStack.Push(controller);
             await controller.Load(this, model);
             await controller.OnGainedFocus();
@@ -65,7 +71,7 @@ namespace Tofunaut.Core
             await currentController.Unload();
             
             // push, load, and gain focus for the new controller
-            var controller = CreateInstance<TController>();
+            var controller = ScriptableObject.CreateInstance<TController>();
             _controllerStack.Push(controller);
             await controller.Load(this, model);
             await controller.OnGainedFocus();

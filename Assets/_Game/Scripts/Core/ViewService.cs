@@ -8,18 +8,22 @@ namespace Tofunaut.Core
 {
     public class ViewService : IViewService
     {
-        private Stack<IViewController> _viewControllerStack;
+        public IViewController Current => _viewControllerStack.Count > 0 ? _viewControllerStack.Peek() : null;
+        
+        private readonly Canvas _canvas;
+        private readonly Stack<IViewController> _viewControllerStack;
 
-        public ViewService()
+        public ViewService(Canvas canvas)
         {
+            _canvas = canvas;
             _viewControllerStack = new Stack<IViewController>();
         }
 
         public async Task<TViewController> Push<TViewController, TViewControllerModel>(TViewControllerModel model) where TViewController : ViewController<TViewControllerModel>
         {
             // load the next view controller
-            var viewController =
-                await Addressables.LoadAssetAsync<TViewController>(typeof(TViewController).ToString()).Task;
+            var viewController = (await Addressables.InstantiateAsync(typeof(TViewController).FullName, _canvas.transform, false).Task)
+                .GetComponent<ViewController<TViewControllerModel>>();
             _viewControllerStack.Push(viewController);
 
             //  lose focus on the current ViewController (if it exists!)
@@ -31,7 +35,7 @@ namespace Tofunaut.Core
             await viewController.Initialize(model);
             await viewController.OnGainedFocus();
             
-            return viewController;
+            return viewController as TViewController;
         }
 
         public async Task<IViewController> Pop()

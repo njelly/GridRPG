@@ -4,27 +4,19 @@ using UnityEngine;
 
 namespace Tofunaut.GridRPG
 {
-    public class AppContext : MonoBehaviour
+    public class AppContext : MonoBehaviour, IContext
     {
-        private static AppContext _instance;
+        public IViewService ViewService { get; private set; }
+        
+        [SerializeField] private Canvas _canvas;
         
         private IRouter _router;
 
-        private void Awake()
-        {
-            if (_instance)
-            {
-                Destroy(this);
-                return;
-            }
-
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-
         private async void Start()
         {
-            _router = ScriptableObject.CreateInstance<Router>();
+            ViewService = new ViewService(_canvas);
+            _router = new Router(this);
+            
             await _router.GoTo<StartScreenController, StartScreenModel>(new StartScreenModel());
         }
     }
