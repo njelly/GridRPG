@@ -13,19 +13,25 @@ namespace Tofunaut.GridRPG
     [CreateAssetMenu(fileName = "new StartScreenController", menuName = "Tofunaut/GridRPG/StartScreenController")]
     public class StartScreenController : Controller<StartScreenModel>
     {
+        private IRouter _router;
+        private StartScreenView _startScreenView;
+        
         public override async Task Load(IRouter router, StartScreenModel model)
         {
+            _router = router;
+            
             var startScreenViewModel = new StartScreenViewModel
             {
                 OnPlayPressed = OnPlayPressed,
             };
 
-            await router.Context.ViewService.Push<StartScreenView, StartScreenViewModel>(startScreenViewModel);
+            _startScreenView = await router.Context.ViewService.Push<StartScreenView, StartScreenViewModel>(startScreenViewModel);
         }
 
-        private void OnPlayPressed()
+        private async void OnPlayPressed()
         {
-            Debug.Log("hey");
+            // await _router.GoTo<GameController, GameControllerModel>(new GameControllerModel());
+            Debug.Log("OnPlayPressed");
         }
     }
 }
