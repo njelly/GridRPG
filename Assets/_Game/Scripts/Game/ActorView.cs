@@ -1,3 +1,4 @@
+using Tofunaut.GridRPG.Game.ActorComponents;
 using UnityEngine;
 
 namespace Tofunaut.GridRPG.Game
@@ -8,14 +9,25 @@ namespace Tofunaut.GridRPG.Game
 
         [SerializeField] private SpriteRenderer _spriteRenderer;
 
+        private Facing _actorFacing;
+
         private void Awake()
         {
             Actor = GetComponentInParent<Actor>();
+            _actorFacing = GetComponentInParent<Facing>();
         }
 
         private void Update()
         {
-            _spriteRenderer.flipX = false;
+            if (_actorFacing)
+            {
+                _spriteRenderer.flipX = _actorFacing.Direction switch
+                {
+                    Facing.EDirection.East => false,
+                    Facing.EDirection.West => true,
+                    _ => _spriteRenderer.flipX
+                };
+            }
         }
     }
 }

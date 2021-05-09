@@ -31,41 +31,42 @@ namespace Tofunaut.GridRPG.Game.ActorComponents
                 IsMoving = true;
             }
 
-            if (IsMoving)
-            {
-                var moveDistance = _moveSpeed * Time.deltaTime;
-                var toTarget = _targetPosition - (Vector2)_t.position;
+            // do nothing if we're still not moving
+            if (!IsMoving) 
+                return;
+            
+            var moveDistance = _moveSpeed * Time.deltaTime;
+            var toTarget = _targetPosition - (Vector2)_t.position;
                 
-                // check if we've reached our target
-                if (toTarget.sqrMagnitude < moveDistance * moveDistance)
+            // check if we've reached our target
+            if (toTarget.sqrMagnitude < moveDistance * moveDistance)
+            {
+                // continue moving if Actor.Input.Direction is held
+                if (Actor.Input.Direction)
                 {
-                    // continue moving if Actor.Input.Direction is held
-                    if (Actor.Input.Direction)
-                    {
-                        var prevTargetPosition = _targetPosition;
-                        _targetPosition = Actor.Coord + Facing.DirectionToVector2(Facing.Vector2ToDirection(Actor.Input.Direction));
-                        toTarget = _targetPosition - (Vector2)_t.position;
+                    var prevTargetPosition = _targetPosition;
+                    _targetPosition = Actor.Coord + Facing.DirectionToVector2(Facing.Vector2ToDirection(Actor.Input.Direction));
+                    toTarget = _targetPosition - (Vector2)_t.position;
                         
-                        // if we're changing direction, snap to the target, then move the remaining distance to the new target
-                        if (_prevMoveDirection != currentMoveDirection)
-                        {
-                            moveDistance -= (prevTargetPosition - (Vector2)_t.position).magnitude;
-                            _t.position = prevTargetPosition;
-                            _prevMoveDirection = currentMoveDirection;
-                        }
-                    }
-                    // otherwise stop moving
-                    else
+                    // if we're changing direction, snap to the target, then move the remaining distance to the new target
+                    if (_prevMoveDirection != currentMoveDirection)
                     {
-                        _t.position = _targetPosition;
-                        moveDistance = 0f;
-                        IsMoving = false;
+                        moveDistance -= (prevTargetPosition - (Vector2)_t.position).magnitude;
+                        _t.position = prevTargetPosition;
+                        _prevMoveDirection = currentMoveDirection;
                     }
                 }
-
-                // step to the target position
-                _t.position += (Vector3)toTarget.normalized * moveDistance;
+                // otherwise stop moving
+                else
+                {
+                    _t.position = _targetPosition;
+                    moveDistance = 0f;
+                    IsMoving = false;
+                }
             }
+
+            // step to the target position
+            _t.position += (Vector3)toTarget.normalized * moveDistance;
         }
     }
 }
