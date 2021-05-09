@@ -2,6 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Tofunaut.Core;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Tofunaut.GridRPG
@@ -15,7 +18,7 @@ namespace Tofunaut.GridRPG
     {
         public override Task Initialize(GameViewModel model)
         {
-            throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }

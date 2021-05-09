@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Tofunaut.Core;
 using Tofunaut.Core.Interfaces;
+using Tofunaut.GridRPG.Game;
 using UnityEngine;
 
 namespace Tofunaut.GridRPG
@@ -28,10 +29,18 @@ namespace Tofunaut.GridRPG
             _startScreenView = await router.Context.ViewService.Push<StartScreenView, StartScreenViewModel>(startScreenViewModel);
         }
 
+        public override Task Unload()
+        {
+            Destroy(_startScreenView.gameObject);
+            return Task.CompletedTask;
+        }
+
         private async void OnPlayPressed()
         {
-            // await _router.GoTo<GameController, GameControllerModel>(new GameControllerModel());
-            Debug.Log("OnPlayPressed");
+            await _router.ReplaceCurrent<GameController, GameControllerModel>(new GameControllerModel
+            {
+                
+            });
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Tofunaut.GridRPG
         private async void Start()
         {
             ViewService = new ViewService(_canvas);
+            
             _router = new Router(this);
             
             await _router.GoTo<StartScreenController, StartScreenModel>(new StartScreenModel());
