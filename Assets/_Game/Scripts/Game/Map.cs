@@ -5,7 +5,9 @@ namespace Tofunaut.GridRPG.Game
 {
     public class Map : MonoBehaviour
     {
+        public MapPortal[] Portals => _portals;
+        
         [SerializeField] private Tilemap _tilemap;
-        [SerializeField] private MapPortal _portals;
+        [SerializeField] private MapPortal[] _portals;
     }
 }

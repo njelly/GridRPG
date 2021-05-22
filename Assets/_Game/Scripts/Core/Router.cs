@@ -7,14 +7,11 @@ namespace Tofunaut.Core
 {
     public class Router : IRouter
     {
-        public IContext Context { get; private set; }
-        
         private readonly Stack<IController> _controllerStack;
 
-        public Router(IContext context)
+        public Router()
         {
             _controllerStack = new Stack<IController>();
-            Context = context;
         }
         
         public async Task<TController> GoTo<TController, TControllerModel>(TControllerModel model) where TController : Controller<TControllerModel>

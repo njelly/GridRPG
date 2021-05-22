@@ -4,8 +4,6 @@ namespace Tofunaut.Core.Interfaces
 {
     public interface IRouter
     {
-        IContext Context { get; }
-        
         Task<TController> GoTo<TController, TControllerModel>(TControllerModel model)
             where TController : Controller<TControllerModel>;
 

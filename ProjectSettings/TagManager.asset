@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Ground
+    uniqueID: 1444139599
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Actor
+    uniqueID: 1617326267
     locked: 0

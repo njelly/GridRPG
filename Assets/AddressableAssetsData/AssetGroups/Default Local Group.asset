@@ -29,14 +29,14 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: d2d86959242875045bb7ff6a573a940c
-    m_Address: Assets/_Game/Scenes/game.unity
+  - m_GUID: ca462df340e5a9a4abc6513d520eab16
+    m_Address: Assets/_Game/Prefabs/Actors/PlayerActor.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
-  - m_GUID: ca462df340e5a9a4abc6513d520eab16
-    m_Address: Assets/_Game/Prefabs/Actors/PlayerActor.prefab
+  - m_GUID: d33bf16bfec3b824eba45222fb2c01a8
+    m_Address: Assets/_Game/Prefabs/Maps/TestMap.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}

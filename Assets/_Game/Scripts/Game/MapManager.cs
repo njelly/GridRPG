@@ -1,20 +1,67 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Tofunaut.GridRPG.Data;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Tofunaut.GridRPG.Game
 {
     public class MapManager
     {
-        private Map _activeMap;
-        private Dictionary<string, Map> _loadedMaps;
+        private Map _currentMap;
+        private Dictionary<object, Map> _loadedMaps;
+        private List<Map> _activeMaps;
 
         public MapManager()
         {
-            _loadedMaps = new Dictionary<string, Map>();
+            _loadedMaps = new Dictionary<object, Map>();
+            _activeMaps = new List<Map>();
         }
 
-        public async void SetActiveMap(string mapAssetPath)
+        public async Task SetCurrentMap(MapData mapData)
         {
+            _activeMaps.Clear();
             
+            if (!_loadedMaps.TryGetValue(mapData.MapAssetReference.RuntimeKey, out var _currentMap))
+            {
+                _currentMap = (await Addressables.InstantiateAsync(mapData.MapAssetReference).Task).GetComponent<Map>();
+                _loadedMaps.Add(mapData.MapAssetReference.RuntimeKey, _currentMap);
+            }
+
+            _activeMaps.Add(_currentMap);
+            _currentMap.gameObject.SetActive(true);
+
+            var connectedMaps = _currentMap.Portals.Select(x => x.ConnectedMap);
+            foreach (var connectedMapData in connectedMaps)
+            {
+                if (!_loadedMaps.TryGetValue(connectedMapData.MapAssetReference.RuntimeKey, out var connectedMap))
+                {
+                    connectedMap = (await Addressables.InstantiateAsync(mapData.MapAssetReference).Task).GetComponent<Map>();
+                    _loadedMaps.Add(connectedMapData.MapAssetReference.RuntimeKey, connectedMap);
+                }
+
+                if (connectedMapData.ActiveWhilePreloaded)
+                {
+                    _activeMaps.Add(connectedMap);
+                    connectedMap.gameObject.SetActive(true);
+                }
+            }
+
+            var toRemove = new List<object>();
+            foreach (var runtimeKey in _loadedMaps.Keys)
+            {
+                var map = _loadedMaps[runtimeKey];
+                if (!_activeMaps.Contains(_loadedMaps[runtimeKey]))
+                {
+                    toRemove.Add(runtimeKey);
+                    Object.Destroy(map.gameObject);
+                }
+            }
+
+            foreach (var runtimeKey in toRemove)
+                _loadedMaps.Remove(runtimeKey);
         }
     }
 }
