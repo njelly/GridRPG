@@ -94,9 +94,10 @@ GameObject:
   - component: {fileID: 5439538561732846283}
   - component: {fileID: 5439538561732846282}
   - component: {fileID: 1272474088361306991}
+  - component: {fileID: 4352130491901386720}
   - component: {fileID: 4584108991932584298}
   - component: {fileID: 5842920865318866370}
-  - component: {fileID: 4352130491901386720}
+  - component: {fileID: 1025816391172048447}
   m_Layer: 6
   m_Name: PlayerActor
   m_TagString: Untagged
@@ -174,6 +175,19 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!65 &4352130491901386720
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5439538561732846325}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4584108991932584298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,19 +213,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 3
---- !u!65 &4352130491901386720
-BoxCollider:
+--- !u!114 &1025816391172048447
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5439538561732846325}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c251094a45c409bbbd56cb572b141be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5439538563688385838
 GameObject:
   m_ObjectHideFlags: 0

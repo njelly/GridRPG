@@ -1,3 +1,4 @@
+using Tofunaut.Core.Utilities;
 using UnityEngine;
 
 namespace Tofunaut.GridRPG.Game.ActorComponents
@@ -26,8 +27,12 @@ namespace Tofunaut.GridRPG.Game.ActorComponents
             var currentMoveDirection = Facing.Vector2ToDirection(Actor.Input.Direction);
             if (!IsMoving && Actor.Input.Direction && Actor.Input.Direction.SignalDuration > HesitationDuration)
             {
+                var potentialTargetPos = Actor.Coord + Facing.DirectionToVector2(currentMoveDirection);
+                if (!CanMoveToPosition(potentialTargetPos))
+                    return;
+                
                 _prevMoveDirection = currentMoveDirection;
-                _targetPosition = Actor.Coord + Facing.DirectionToVector2(_prevMoveDirection);
+                _targetPosition = potentialTargetPos;
                 IsMoving = true;
             }
 
@@ -41,23 +46,33 @@ namespace Tofunaut.GridRPG.Game.ActorComponents
             // check if we've reached our target
             if (toTarget.sqrMagnitude < moveDistance * moveDistance)
             {
+                var isStillMoving = false;
+                
                 // continue moving if Actor.Input.Direction is held
                 if (Actor.Input.Direction)
                 {
                     var prevTargetPosition = _targetPosition;
-                    _targetPosition = Actor.Coord + Facing.DirectionToVector2(Facing.Vector2ToDirection(Actor.Input.Direction));
-                    toTarget = _targetPosition - (Vector2)_t.position;
-                        
-                    // if we're changing direction, snap to the target, then move the remaining distance to the new target
-                    if (_prevMoveDirection != currentMoveDirection)
+                    var potentialTargetPosition = Actor.Coord + Facing.DirectionToVector2(Facing.Vector2ToDirection(Actor.Input.Direction));
+                    if(CanMoveToPosition(potentialTargetPosition))
                     {
-                        moveDistance -= (prevTargetPosition - (Vector2)_t.position).magnitude;
-                        _t.position = prevTargetPosition;
-                        _prevMoveDirection = currentMoveDirection;
+                        _targetPosition = potentialTargetPosition;
+                        toTarget = _targetPosition - (Vector2)_t.position;
+                        
+                        // if we're changing direction, snap to the target, then move the remaining distance to the new target
+                        if (_prevMoveDirection != currentMoveDirection)
+                        {
+                            moveDistance -= (prevTargetPosition - (Vector2)_t.position).magnitude;
+                            _t.position = prevTargetPosition;
+                            _prevMoveDirection = currentMoveDirection;
+                        }
+                    
+                        isStillMoving = true;
                     }
                 }
-                // otherwise stop moving
-                else
+                
+                
+                // stop moving
+                if(!isStillMoving)
                 {
                     _t.position = _targetPosition;
                     moveDistance = 0f;
@@ -67,6 +82,16 @@ namespace Tofunaut.GridRPG.Game.ActorComponents
 
             // step to the target position
             _t.position += (Vector3)toTarget.normalized * moveDistance;
+        }
+
+        private bool CanMoveToPosition(Vector2 position)
+        {
+            if (GameController.MapManager.CurrentMap.SolidTileMap.GetTile((Vector3Int)position.RoundToVector2Int()))
+                return false;
+            
+            var results = new Collider2D[1];
+            var numResults = Physics2D.OverlapCircleNonAlloc(position, 0.4f, results, LayerMask.GetMask("Actor"));
+            return numResults == 0;
         }
     }
 }

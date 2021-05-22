@@ -10,7 +10,7 @@ namespace Tofunaut.GridRPG.Game
 {
     public class MapManager
     {
-        private Map _currentMap;
+        public Map CurrentMap { get; private set; }
         private Dictionary<object, Map> _loadedMaps;
         private List<Map> _activeMaps;
 
@@ -24,16 +24,17 @@ namespace Tofunaut.GridRPG.Game
         {
             _activeMaps.Clear();
             
-            if (!_loadedMaps.TryGetValue(mapData.MapAssetReference.RuntimeKey, out var _currentMap))
+            if (!_loadedMaps.TryGetValue(mapData.MapAssetReference.RuntimeKey, out var currentMap))
             {
-                _currentMap = (await Addressables.InstantiateAsync(mapData.MapAssetReference).Task).GetComponent<Map>();
-                _loadedMaps.Add(mapData.MapAssetReference.RuntimeKey, _currentMap);
+                currentMap = (await Addressables.InstantiateAsync(mapData.MapAssetReference).Task).GetComponent<Map>();
+                _loadedMaps.Add(mapData.MapAssetReference.RuntimeKey, currentMap);
             }
 
-            _activeMaps.Add(_currentMap);
-            _currentMap.gameObject.SetActive(true);
+            CurrentMap = currentMap;
+            _activeMaps.Add(CurrentMap);
+            CurrentMap.gameObject.SetActive(true);
 
-            var connectedMaps = _currentMap.Portals.Select(x => x.ConnectedMap);
+            var connectedMaps = CurrentMap.Portals.Select(x => x.ConnectedMap);
             foreach (var connectedMapData in connectedMaps)
             {
                 if (!_loadedMaps.TryGetValue(connectedMapData.MapAssetReference.RuntimeKey, out var connectedMap))

@@ -18,12 +18,12 @@ namespace Tofunaut.GridRPG
     public class GameController : Controller<GameControllerModel>
     {
         public Actor PlayerActor { get; private set; }
-        public MapManager MapManager { get; private set; }
+        public static MapManager MapManager { get; private set; }
         
         private IRouter _router;
         private GameControllerModel _model;
         private GameView _gameView;
-        private SceneInstance _sceneInstance;
+        private MapManager _mapManager;
         
         public override async Task Load(IRouter router, GameControllerModel model)
         {
@@ -46,7 +46,6 @@ namespace Tofunaut.GridRPG
 
         public override async Task Unload()
         {
-            SceneManager.UnloadSceneAsync(_sceneInstance.Scene);
             await _router.Back();
             Destroy(_gameView.gameObject);
         }
