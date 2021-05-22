@@ -70,7 +70,6 @@ namespace Tofunaut.GridRPG.Game.ActorComponents
                     }
                 }
                 
-                
                 // stop moving
                 if(!isStillMoving)
                 {
