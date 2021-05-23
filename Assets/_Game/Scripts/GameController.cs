@@ -41,6 +41,7 @@ namespace Tofunaut.GridRPG
 
             PlayerActor = (await Addressables.InstantiateAsync(AppConstants.AssetPaths.Prefabs.PlayerActor).Task)
                 .GetComponent<Actor>();
+            PlayerActor.SetActorInputProvider(GameContext.PlayerActorInputProvider);
 
             await GameContext.MapManager.SetCurrentMap(model.InitialMap);
             

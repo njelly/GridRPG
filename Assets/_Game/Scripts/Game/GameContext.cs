@@ -6,10 +6,12 @@ namespace Tofunaut.GridRPG.Game
     {
         public static GameCameraController GameCamera => _instance._gameCameraController;
         public static MapManager MapManager => _instance._mapManager;
+        public static PlayerActorInputProvider PlayerActorInputProvider => _instance._playerActorInputProvider;
         
         private static GameContext _instance;
         
         [SerializeField] private GameCameraController _gameCameraController;
+        [SerializeField] private PlayerActorInputProvider _playerActorInputProvider;
 
         private MapManager _mapManager;
 

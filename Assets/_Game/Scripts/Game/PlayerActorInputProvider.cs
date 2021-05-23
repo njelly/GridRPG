@@ -24,13 +24,11 @@ namespace Tofunaut.GridRPG.Game
             _moveAction.started += OnMoveAction;
             _moveAction.performed += OnMoveAction;
             _moveAction.canceled += OnMoveAction;
-            _moveAction.Enable();
 
             _interactAction = _playerInput.actions.FindAction("Interact");
             _interactAction.started += OnInteractAction;
             _interactAction.performed += OnInteractAction;
             _interactAction.canceled += OnInteractAction;
-            _interactAction.Enable();
         }
 
         private void OnDestroy()
