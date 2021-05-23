@@ -44,6 +44,7 @@ namespace Tofunaut.GridRPG
             {
                 AppContext = _model.AppContext,
                 InitialMap = _model.AppContext.MapCatalog.MapDatas.First(),
+                GameContextAssetReference = _model.AppContext.GameContextAssetReference,
             });
         }
     }

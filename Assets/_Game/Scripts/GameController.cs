@@ -12,24 +12,25 @@ namespace Tofunaut.GridRPG
     public class GameControllerModel
     {
         public AppContext AppContext;
+        public AssetReference GameContextAssetReference;
         public MapData InitialMap;
     }
     
     public class GameController : Controller<GameControllerModel>
     {
         public Actor PlayerActor { get; private set; }
-        public static MapManager MapManager { get; private set; }
         
         private IRouter _router;
         private GameControllerModel _model;
         private GameView _gameView;
-        private MapManager _mapManager;
+        private GameContext _gameContext;
         
         public override async Task Load(IRouter router, GameControllerModel model)
         {
             _router = router;
             _model = model;
-            MapManager = new MapManager();
+
+            _gameContext = (await Addressables.InstantiateAsync(_model.GameContextAssetReference).Task).GetComponent<GameContext>();
             
             var gameViewModel = new GameViewModel
             {
@@ -41,7 +42,10 @@ namespace Tofunaut.GridRPG
             PlayerActor = (await Addressables.InstantiateAsync(AppConstants.AssetPaths.Prefabs.PlayerActor).Task)
                 .GetComponent<Actor>();
 
-            await MapManager.SetCurrentMap(model.InitialMap);
+            await GameContext.MapManager.SetCurrentMap(model.InitialMap);
+            
+            GameContext.GameCamera.SetTarget(PlayerActor.transform);
+            GameContext.GameCamera.SetBounds(GameContext.MapManager.CurrentMap.CameraBounds);
         }
 
         public override async Task Unload()
