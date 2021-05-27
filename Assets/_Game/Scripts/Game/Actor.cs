@@ -17,10 +17,11 @@ namespace Tofunaut.GridRPG.Game
             _t = transform;
         }
 
-        public void SetActorInputProvider(IActorInputProvider provider)
+        public void SetActorInputProviderOverride(IActorInputProvider provider)
         {
             if (provider == null)
             {
+                // use the attached MonoBehaviour implementation of IActorInputProvider (or NoOpActorInputProvider if none exists)
                 _actorInputProvider = (IActorInputProvider) GetComponent(typeof(IActorInputProvider)) ??
                                       new NoOpActorInputProvider();
             }

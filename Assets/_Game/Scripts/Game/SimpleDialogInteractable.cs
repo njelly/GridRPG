@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Tofunaut.GridRPG.Game.UI;
+using UnityEngine;
 
 namespace Tofunaut.GridRPG.Game
 {
@@ -8,12 +9,14 @@ namespace Tofunaut.GridRPG.Game
         
         public override void OnBeginInteraction(Actor interactor)
         {
-            Debug.Log(_dialog);
+            GameContext.DialogView.QueueDialog(new Dialog
+            {
+                text = _dialog,
+            });
         }
 
         public override void OnEndInteraction(Actor interactor)
         {
-            Debug.Log("Good bye!");
         }
     }
 }

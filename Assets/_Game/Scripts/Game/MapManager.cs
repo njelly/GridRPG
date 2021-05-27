@@ -63,6 +63,8 @@ namespace Tofunaut.GridRPG.Game
 
             foreach (var runtimeKey in toRemove)
                 _loadedMaps.Remove(runtimeKey);
+            
+            GameContext.GameCamera.SetBounds(GameContext.MapManager.CurrentMap.CameraBounds);
         }
     }
 }
