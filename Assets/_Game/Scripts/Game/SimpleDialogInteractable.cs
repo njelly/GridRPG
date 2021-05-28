@@ -1,4 +1,5 @@
-﻿using Tofunaut.GridRPG.Game.UI;
+﻿using System.Collections.Generic;
+using Tofunaut.GridRPG.Game.UI;
 using UnityEngine;
 
 namespace Tofunaut.GridRPG.Game
@@ -7,12 +8,25 @@ namespace Tofunaut.GridRPG.Game
     {
         [SerializeField] private string _dialog;
         
-        public override void OnBeginInteraction(Actor interactor)
+        public override async void OnBeginInteraction(Actor interactor)
         {
-            GameContext.DialogView.QueueDialog(new Dialog
+            var dialogView = default(DialogViewController);
+            var dialogViewModel = new DialogViewModel
             {
-                text = _dialog,
-            });
+                DialogQueue = new Queue<Dialog>(new []
+                {
+                    new Dialog
+                    {
+                        Text = _dialog,
+                    },
+                }),
+                OnDialogDepleted = async () =>
+                {
+                    await AppContext.ViewStack.PopUntil(dialogView);
+                }
+            };
+
+            dialogView = await AppContext.ViewStack.Push<DialogViewController, DialogViewModel>(AppConstants.AssetPaths.UI.DialogView, dialogViewModel);
         }
 
         public override void OnEndInteraction(Actor interactor)

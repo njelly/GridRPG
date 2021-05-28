@@ -10,7 +10,6 @@ namespace Tofunaut.GridRPG
 {
     public class StartScreenModel
     {
-        public AppContext AppContext;
     }
     
     public class StartScreenController : Controller<StartScreenModel>
@@ -29,7 +28,7 @@ namespace Tofunaut.GridRPG
                 OnPlayPressed = OnPlayPressed,
             };
 
-            _startScreenView = await model.AppContext.ViewService.Push<StartScreenView, StartScreenViewModel>(startScreenViewModel);
+            _startScreenView = await AppContext.ViewStack.Push<StartScreenView, StartScreenViewModel>(AppConstants.AssetPaths.UI.StarScreenView, startScreenViewModel);
         }
 
         public override Task Unload()
@@ -42,9 +41,7 @@ namespace Tofunaut.GridRPG
         {
             await _router.ReplaceCurrent<GameController, GameControllerModel>(new GameControllerModel
             {
-                AppContext = _model.AppContext,
-                InitialMap = _model.AppContext.MapCatalog.MapDatas.First(),
-                GameContextAssetReference = _model.AppContext.GameContextAssetReference,
+                InitialMap = AppContext.MapCatalog.MapDatas.First(),
             });
         }
     }

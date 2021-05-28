@@ -6,24 +6,22 @@ using UnityEngine.AddressableAssets;
 
 namespace Tofunaut.Core
 {
-    public class ViewService : IViewService
+    public class ViewStack
     {
-        public IViewController Current => _viewControllerStack.Count > 0 ? _viewControllerStack.Peek() : null;
-        
         private readonly Canvas _canvas;
         private readonly Stack<IViewController> _viewControllerStack;
 
-        public ViewService(Canvas canvas)
+        public ViewStack(Canvas canvas)
         {
             _canvas = canvas;
             _viewControllerStack = new Stack<IViewController>();
         }
 
-        public async Task<TViewController> Push<TViewController, TViewControllerModel>(TViewControllerModel model) where TViewController : ViewController<TViewControllerModel>
+        public async Task<TViewController> Push<TViewController, TViewModel>(string path, TViewModel model) where TViewController : ViewController<TViewModel>
         {
             // load the next view controller
-            var viewController = (await Addressables.InstantiateAsync(typeof(TViewController).FullName, _canvas.transform, false).Task)
-                .GetComponent<ViewController<TViewControllerModel>>();
+            var viewController = (await Addressables.InstantiateAsync(path, _canvas.transform).Task)
+                .GetComponent<ViewController<TViewModel>>();
             _viewControllerStack.Push(viewController);
 
             //  lose focus on the current ViewController (if it exists!)
@@ -32,7 +30,7 @@ namespace Tofunaut.Core
                 await currentViewController.OnLostFocus();
             
             // initialize and gain focus on the new ViewController
-            await viewController.Initialize(model);
+            await viewController.OnPushedToStack(model);
             await viewController.OnGainedFocus();
             
             return viewController as TViewController;
@@ -56,6 +54,12 @@ namespace Tofunaut.Core
             currentViewController = _viewControllerStack.Peek();
             await currentViewController.OnGainedFocus();
             return currentViewController;
+        }
+
+        public async Task PopUntil(IViewController viewController)
+        {
+            while (_viewControllerStack.Count > 0 && _viewControllerStack.Peek() != viewController)
+                await Pop();
         }
 
         public Task ClearHistory()

@@ -4,10 +4,15 @@ using UnityEngine;
 
 namespace Tofunaut.Core
 {
-    public abstract class ViewController<TControllerModel> : MonoBehaviour, IViewController
+    public abstract class ViewController<TViewModel> : MonoBehaviour, IViewController
     {
-        public async Task Initialize(object model) =>  await Initialize((TControllerModel) model);
-        public abstract Task Initialize(TControllerModel model);
+        public Task OnPushedToStack(object model) => OnPushedToStack((TViewModel) model);
+        public abstract Task OnPushedToStack(TViewModel model);
+
+        public virtual Task OnPoppedFromStack()
+        {
+            return Task.CompletedTask;
+        }
 
         public virtual Task OnGainedFocus()
         {

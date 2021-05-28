@@ -85,6 +85,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4359098455673711675}
   - component: {fileID: 4359098455673711674}
+  - component: {fileID: 610902556365849349}
+  - component: {fileID: 902776701741441565}
   m_Layer: 0
   m_Name: DialogView
   m_TagString: Untagged
@@ -121,6 +123,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4359098455673711668}
   m_CullTransparentMesh: 1
+--- !u!114 &610902556365849349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4359098455673711668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4e428079bf4232b81d259b693806a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogLabel: {fileID: 4359098456176883414}
+  _fadeInGroup: {fileID: 902776701741441565}
+--- !u!225 &902776701741441565
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4359098455673711668}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4359098456176883408
 GameObject:
   m_ObjectHideFlags: 0

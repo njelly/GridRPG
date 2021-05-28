@@ -14,8 +14,8 @@ namespace Tofunaut.GridRPG
     public class StartScreenView : ViewController<StartScreenViewModel>
     {
         [SerializeField] private Button _playButton;
-        
-        public override Task Initialize(StartScreenViewModel model)
+
+        public override Task OnPushedToStack(StartScreenViewModel model)
         {
             _playButton.onClick.RemoveAllListeners();
             _playButton.onClick.AddListener(() => model.OnPlayPressed?.Invoke());
