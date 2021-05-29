@@ -5,7 +5,9 @@ using DG.Tweening;
 using TMPro;
 using Tofunaut.Core;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Tofunaut.GridRPG.Game.UI
 {
@@ -26,20 +28,26 @@ namespace Tofunaut.GridRPG.Game.UI
         
         [SerializeField] private TextMeshProUGUI _dialogLabel;
         [SerializeField] private CanvasGroup _fadeInGroup;
+        [SerializeField] private Button _nextButton;
 
         private DialogViewModel _model;
-        private Queue<Dialog> _dialogQueue;
         private Actor _prevPlayerActorInputTarget;
 
         public override Task OnPushedToStack(DialogViewModel model)
         {
             _model = model;
-            _dialogQueue = new Queue<Dialog>();
             _fadeInGroup.DOFade(1f, 0.35f);
+            
+            _nextButton.onClick.RemoveAllListeners();
+            _nextButton.onClick.AddListener(NextDialog);
+            
+            EventSystem.current.SetSelectedGameObject(_nextButton.gameObject);
 
             // record the player actor input target, we'll reassign it later if it exists
             _prevPlayerActorInputTarget = GameContext.PlayerActorInputTarget;
             GameContext.SetPlayerActorInputTarget(null);
+            
+            NextDialog();
 
             return Task.CompletedTask;
         }
@@ -55,13 +63,13 @@ namespace Tofunaut.GridRPG.Game.UI
 
         private void NextDialog()
         {
-            if (_dialogQueue.Count <= 0)
+            if (_model.DialogQueue.Count <= 0)
             {
                 _model.OnDialogDepleted?.Invoke();
                 return;
             }
             
-            var dialog = _dialogQueue.Dequeue();
+            var dialog = _model.DialogQueue.Dequeue();
             _dialogLabel.text = dialog.Text;
         }
     }

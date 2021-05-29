@@ -18,13 +18,7 @@ MonoBehaviour:
   m_GUID: 50fef273cf6d7324e9092c6ec54d7d53
   m_SerializeEntries:
   - m_GUID: 3873186c14ace8a42acadfa222077ad6
-    m_Address: Tofunaut.GridRPG.StartScreenView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
-  - m_GUID: 5a432182922de5744b74c7831ef84b17
-    m_Address: Tofunaut.GridRPG.GameView
+    m_Address: Assets/_Game/Prefabs/StartScreenView.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
@@ -48,7 +42,7 @@ MonoBehaviour:
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
   - m_GUID: 2c3fa56fc06c2c64ab8ebeace5f57852
-    m_Address: Tofunaut.GridRPG.Game.UI.DialogViewController
+    m_Address: Assets/_Game/Prefabs/UI/DialogView.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}

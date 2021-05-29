@@ -31,10 +31,9 @@ namespace Tofunaut.GridRPG
             _startScreenView = await AppContext.ViewStack.Push<StartScreenView, StartScreenViewModel>(AppConstants.AssetPaths.UI.StarScreenView, startScreenViewModel);
         }
 
-        public override Task Unload()
+        public override async Task Unload()
         {
-            Destroy(_startScreenView.gameObject);
-            return Task.CompletedTask;
+            await AppContext.ViewStack.Pop();
         }
 
         private async void OnPlayPressed()
