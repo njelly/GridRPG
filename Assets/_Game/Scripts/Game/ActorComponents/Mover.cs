@@ -85,7 +85,7 @@ namespace Tofunaut.GridRPG.Game.ActorComponents
 
         private bool CanMoveToPosition(Vector2 position)
         {
-            if (GameContext.MapManager.CurrentMap.SolidTileMap.GetTile((Vector3Int)position.RoundToVector2Int()))
+            if (GameContext.MapManager.CurrentMap.SolidTileMap.HasTile((Vector3Int)position.RoundToVector2Int() - new Vector3Int(1, 1, 0)))
                 return false;
             
             var results = new Collider2D[1];
