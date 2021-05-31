@@ -54,6 +54,8 @@ namespace Tofunaut.GridRPG.Game.UI
 
         public override Task OnPoppedFromStack()
         {
+            Debug.Log("popped from stack");
+            
             // reassign the previous player actor input target if it still exists
             if(_prevPlayerActorInputTarget)
                 GameContext.SetPlayerActorInputTarget(_prevPlayerActorInputTarget);
@@ -63,6 +65,8 @@ namespace Tofunaut.GridRPG.Game.UI
 
         private void NextDialog()
         {
+            Debug.Log("next dialog");
+            
             if (_model.DialogQueue.Count <= 0)
             {
                 _model.OnDialogDepleted?.Invoke();

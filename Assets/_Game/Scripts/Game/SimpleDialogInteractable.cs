@@ -22,7 +22,7 @@ namespace Tofunaut.GridRPG.Game
                 }),
                 OnDialogDepleted = async () =>
                 {
-                    await AppContext.ViewStack.PopUntil(dialogView);
+                    await AppContext.ViewStack.PopUpTo(dialogView);
                 }
             };
 

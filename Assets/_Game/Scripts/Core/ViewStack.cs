@@ -44,6 +44,7 @@ namespace Tofunaut.Core
             // lose focus on the current ViewController and destroy the GameObject (if it exists)
             var currentViewController = _viewControllerStack.Pop();
             await currentViewController.OnLostFocus();
+            await currentViewController.OnPoppedFromStack();
             if(currentViewController is MonoBehaviour currentViewControllerBehaviour)
                 Object.Destroy(currentViewControllerBehaviour.gameObject);
             
@@ -56,10 +57,22 @@ namespace Tofunaut.Core
             return currentViewController;
         }
 
+        /// <summary>
+        /// Pop the stack until we reach the viewController.
+        /// </summary>
         public async Task PopUntil(IViewController viewController)
         {
             while (_viewControllerStack.Count > 0 && _viewControllerStack.Peek() != viewController)
                 await Pop();
+        }
+
+        /// <summary>
+        /// Pop the stack until we reach the viewController, then pop one more time
+        /// </summary>
+        public async Task PopUpTo(IViewController viewController)
+        {
+            await PopUntil(viewController);
+            await Pop();
         }
 
         public Task ClearHistory()
