@@ -45,7 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d90f5d3cc82713544bd344b0d1e95876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dialog: Welcome, adventurer!
+  _dialog: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia
+    congue sem imperdiet eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing
+    elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia
+    congue sem imperdiet eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing
+    elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia
+    congue sem imperdiet eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing
+    elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacinia
+    congue sem imperdiet eleifend. Lorem ipsum dolor sit amet, consectetur adipiscing
+    elit.
 --- !u!61 &6441392647940439389
 BoxCollider2D:
   m_ObjectHideFlags: 0

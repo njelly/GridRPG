@@ -6,7 +6,7 @@ namespace Tofunaut.GridRPG.Game
 {
     public class SimpleDialogInteractable : Interactable
     {
-        [SerializeField] private string _dialog;
+        [SerializeField, TextArea] private string _dialog;
         
         public override async void OnBeginInteraction(Actor interactor)
         {

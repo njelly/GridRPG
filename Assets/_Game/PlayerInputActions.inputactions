@@ -531,6 +531,17 @@
                 },
                 {
                     "name": "",
+                    "id": "a94d221f-59ff-4ece-8802-ae6638f24eb3",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "efd2f33b-c116-42c0-88d2-9918733e9f10",
                     "path": "*/{Cancel}",
                     "interactions": "",
