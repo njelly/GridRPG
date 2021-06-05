@@ -47,6 +47,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
+  - m_GUID: 1ec42f486f2be2f44afc424fb6b540c6
+    m_Address: Assets/_Game/Prefabs/Maps/TestMap_2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: bec31ae3509f7134091c5a88782206a7, type: 2}
   m_SchemaSet:
